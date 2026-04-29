@@ -1,0 +1,10 @@
+apiVersion: v2
+name: openshift-log-forwarding
+description: Forwards OpenShift audit logs to AWS CloudWatch via the Cluster Logging Operator
+type: application
+version: 0.1.0
+keywords:
+  - openshift
+  - logging
+  - cloudwatch
+  - stig

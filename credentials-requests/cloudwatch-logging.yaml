@@ -1,0 +1,29 @@
+# This file is processed by ccoctl — it is NOT applied to the cluster directly.
+# If CLO is already installed elsewhere, you can cross-check this against what the
+# operator created by running:
+#   oc get credentialsrequest -n openshift-cloud-credential-operator -o yaml | grep -A10 -i logging
+apiVersion: cloudcredential.openshift.io/v1
+kind: CredentialsRequest
+metadata:
+  name: openshift-logging-cloudwatch
+  namespace: openshift-cloud-credential-operator
+spec:
+  providerSpec:
+    apiVersion: cloudcredential.openshift.io/v1
+    kind: AWSProviderSpec
+    statementEntries:
+      - effect: Allow
+        action:
+          - logs:CreateLogGroup
+          - logs:CreateLogStream
+          - logs:DescribeLogGroups
+          - logs:DescribeLogStreams
+          - logs:PutLogEvents
+          - logs:PutRetentionPolicy
+        resource: "*"
+  secretRef:
+    name: cloudwatch-credentials
+    namespace: openshift-logging
+  # Scopes the IAM role trust policy to the collector ServiceAccount.
+  serviceAccountNames:
+    - collector

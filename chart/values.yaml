@@ -1,0 +1,15 @@
+# Name of the cluster — used as the CloudWatch log group prefix.
+# Log group will be: <clusterName>/audit
+clusterName: ""
+
+# AWS region where CloudWatch logs will be written.
+awsRegion: ""
+
+clo:
+  # OLM subscription channel for the Cluster Logging Operator.
+  # Run `oc get packagemanifest cluster-logging -n openshift-marketplace -o jsonpath='{.status.channels[*].name}'`
+  # to list available channels on your cluster.
+  channel: stable
+
+  # Set to Manual to gate operator upgrades via InstallPlan approval.
+  installPlanApproval: Automatic

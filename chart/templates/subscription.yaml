@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: cluster-logging
+  namespace: openshift-logging
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  channel: {{ .Values.clo.channel }}
+  installPlanApproval: {{ .Values.clo.installPlanApproval }}
+  name: cluster-logging
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace

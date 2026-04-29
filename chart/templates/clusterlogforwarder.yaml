@@ -1,0 +1,24 @@
+apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  serviceAccount:
+    name: collector
+  outputs:
+    - name: cloudwatch-audit
+      type: CloudWatch
+      cloudwatch:
+        region: {{ .Values.awsRegion }}
+        groupName: {{ .Values.clusterName }}/audit
+      secret:
+        name: cloudwatch-credentials
+  pipelines:
+    - name: audit-to-cloudwatch
+      inputRefs:
+        - audit
+      outputRefs:
+        - cloudwatch-audit
