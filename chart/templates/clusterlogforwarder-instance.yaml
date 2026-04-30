@@ -10,16 +10,18 @@ spec:
     name: collector
   outputs:
     - name: cloudwatch-audit
-      type: CloudWatch
+      type: cloudwatch
       cloudwatch:
         region: {{ .Values.awsRegion }}
-        groupName: "{{ .Values.clusterName }}/{.log_type}"
+        groupName: '{{ .Values.clusterName }}/{.log_type||"unlabeled"}'
       authentication:
         type: iamRole
         iamRole:
           roleARN:
             key: role_arn
             secretName: cloudwatch-credentials
+          token:
+            from: serviceAccount
   pipelines:
     - name: audit-to-cloudwatch
       inputRefs:
