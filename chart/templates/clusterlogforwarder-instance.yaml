@@ -13,10 +13,13 @@ spec:
       type: CloudWatch
       cloudwatch:
         region: {{ .Values.awsRegion }}
-        groupBy: logType
-        groupPrefix: {{ .Values.clusterName }}
-      secret:
-        name: cloudwatch-credentials
+        groupName: "{{ .Values.clusterName }}/{.log_type}"
+      authentication:
+        type: iamRole
+        iamRole:
+          roleARN:
+            key: role_arn
+            secretName: cloudwatch-credentials
   pipelines:
     - name: audit-to-cloudwatch
       inputRefs:
