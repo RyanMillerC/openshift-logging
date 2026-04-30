@@ -1,9 +1,0 @@
-apiVersion: logging.openshift.io/v1
-kind: ClusterLogging
-metadata:
-  name: instance
-  namespace: openshift-logging
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-spec:
-  managementState: Managed

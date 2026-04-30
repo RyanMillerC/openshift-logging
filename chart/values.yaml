@@ -9,7 +9,7 @@ clo:
   # OLM subscription channel for the Cluster Logging Operator.
   # Run `oc get packagemanifest cluster-logging -n openshift-marketplace -o jsonpath='{.status.channels[*].name}'`
   # to list available channels on your cluster.
-  channel: stable
+  channel: stable-6.5
 
   # Set to Manual to gate operator upgrades via InstallPlan approval.
   installPlanApproval: Automatic

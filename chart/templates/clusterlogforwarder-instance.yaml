@@ -13,7 +13,8 @@ spec:
       type: CloudWatch
       cloudwatch:
         region: {{ .Values.awsRegion }}
-        groupName: {{ .Values.clusterName }}/audit
+        groupBy: logType
+        groupPrefix: {{ .Values.clusterName }}
       secret:
         name: cloudwatch-credentials
   pipelines:

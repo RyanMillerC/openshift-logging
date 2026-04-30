@@ -28,7 +28,7 @@ clusterName: "my-cluster"   # Used as the CloudWatch log group prefix
 awsRegion: "us-east-1"      # AWS region where logs will be written
 ```
 
-The resulting CloudWatch log group will be: `<clusterName>/audit`
+The resulting CloudWatch log group will be: `<clusterName>.audit`
 
 To list available CLO channels on your cluster:
 ```bash
@@ -53,7 +53,7 @@ ArgoCD syncs in waves, ensuring correct ordering:
 | Wave | Resources |
 |---|---|
 | 0 | Namespace, OperatorGroup, Subscription |
-| 1 | ServiceAccount, ClusterLogging |
+| 1 | ServiceAccount, ClusterRoleBinding |
 | 2 | ClusterLogForwarder |
 
 The `ClusterLogForwarder` (wave 2) will remain degraded until the AWS credentials Secret
@@ -105,12 +105,12 @@ oc logs -n openshift-logging -l component=collector --tail=50
 
 # Confirm the log group exists in AWS
 aws logs describe-log-groups \
-  --log-group-name-prefix "/<clusterName>/audit" \
+  --log-group-name-prefix "<clusterName>.audit" \
   --region <awsRegion>
 
 # Confirm log events are arriving
 aws logs describe-log-streams \
-  --log-group-name "/<clusterName>/audit" \
+  --log-group-name "<clusterName>.audit" \
   --region <awsRegion> \
   --order-by LastEventTime \
   --descending
@@ -138,7 +138,7 @@ Nothing needs to be manually created in AWS ahead of time:
 ## Adding More Log Types
 
 To forward infrastructure or application logs in addition to audit, add them to `inputRefs`
-in `chart/templates/clusterlogforwarder.yaml`:
+in `chart/templates/clusterlogforwarder-instance.yaml`:
 
 ```yaml
 pipelines:
